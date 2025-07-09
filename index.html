@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>메일앱 열기</title>
+  <script>
+    // 주소에서 ?email=... 추출
+    const params = new URLSearchParams(window.location.search);
+    const email = params.get("email");
+
+    if (email) {
+      // 메일 앱 열기
+      window.location.href = "mailto:" + email;
+    } else {
+      document.body.innerHTML = "<p>이메일 주소가 없습니다.</p>";
+    }
+  </script>
+</head>
+<body>
+  <p>메일앱을 여는 중입니다...</p>
+</body>
+</html>
