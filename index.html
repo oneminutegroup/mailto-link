@@ -8,7 +8,6 @@
     const email = params.get("email");
 
     if (email) {
-      // 안전하게 mailto 링크로 리디렉션
       window.location.href = "mailto:" + decodeURIComponent(email);
     } else {
       document.body.innerHTML = "<p>이메일 주소가 없습니다.</p>";
