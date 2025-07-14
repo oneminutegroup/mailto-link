@@ -1,80 +1,73 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <title>메일 보내기</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        text-align: center;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        position: relative;
-      }
-      #mail-body {
-        font-size: 18px;
-        margin-top: 30px;
-        white-space: pre-line;
-      }
-      #mailto-link {
-        position: absolute;
-        top: 65%; /* 화면 아래쪽으로 이동 */
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 40px 0;
-        width: 50%;
-        font-size: 26px;
-        background-color: #007BFF;
-        color: white;
-        text-decoration: none;
-        border-radius: 12px;
-        font-weight: bold;
-      }
-      #copy-button {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        padding: 30px 40px;
-        font-size: 20px;
-        background-color: #333;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        opacity: 0.9;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="mail-body">
-      아래 버튼을 눌러 메일 앱을 여세요.
-    </div>
+<head>
+  <meta charset="UTF-8" />
+  <title>메일 보내기</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden; /* 스크롤 제거 */
+    }
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    #mailto-link {
+      position: absolute;
+      top: 65%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 100px;
+      font-size: 40px;
+      background-color: #007BFF;
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #copy-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 25px 30px;
+      font-size: 20px;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <a id="mailto-link" href="#">📨 메일 앱 열기</a>
+  <button id="copy-button">📋 이메일 복사</button>
 
-    <a id="mailto-link" href="#">📨 메일 앱 열기</a>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const email = params.get("email");
 
-    <button id="copy-button">📋 이메일 복사</button>
-
-    <script>
-      const params = new URLSearchParams(window.location.search);
-      const email = params.get("email");
-
-      if (email) {
-        const decoded = decodeURIComponent(email);
-        document.getElementById("mailto-link").href = "mailto:" + decoded;
-
-        document.getElementById("copy-button").addEventListener("click", () => {
-          navigator.clipboard.writeText(decoded).then(() => {
-            alert("이메일이 복사되었습니다.");
-          });
+    if (email) {
+      const decoded = decodeURIComponent(email);
+      document.getElementById("mailto-link").href = "mailto:" + decoded;
+      document.getElementById("copy-button").addEventListener("click", () => {
+        navigator.clipboard.writeText(decoded).then(() => {
+          alert("이메일이 복사되었습니다.");
         });
-      } else {
-        document.body.innerHTML = "<p>이메일 주소가 없습니다.</p>";
-      }
-    </script>
-  </body>
+      });
+    } else {
+      document.body.innerHTML = "<p>이메일 주소가 없습니다.</p>";
+    }
+  </script>
+</body>
 </html>
