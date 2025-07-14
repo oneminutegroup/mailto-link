@@ -9,12 +9,15 @@
         margin: 0;
         padding: 0;
         height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
 
-      .content {
-        text-align: center;
+      .info {
         margin-top: 40px;
         font-size: 1.2rem;
+        text-align: center;
       }
 
       .button-container {
@@ -22,12 +25,11 @@
         top: 60%;
         left: 50%;
         transform: translate(-50%, -50%);
-        z-index: 10;
       }
 
       .button {
         font-size: 2rem;
-        padding: 20px 60px;
+        padding: 25px 50px;
         background-color: #007bff;
         color: white;
         border: none;
@@ -44,7 +46,7 @@
     </style>
   </head>
   <body>
-    <div class="content">
+    <div class="info">
       <p>📨 아래 버튼을 눌러 메일 앱을 여세요:</p>
     </div>
 
@@ -57,13 +59,13 @@
     <script>
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
-      const body = params.get("body") || "";
 
       if (email) {
-        const mailtoLink = mailto:${decodeURIComponent(email)}?body=${decodeURIComponent(body)};
+        const mailtoLink = mailto:${decodeURIComponent(email)};
         document.getElementById("mailto-link").href = mailtoLink;
       } else {
-        document.body.innerHTML = "<p>이메일 주소가 없습니다.</p>";
+        document.querySelector(".info").innerHTML = "<p>이메일 주소가 없습니다.</p>";
+        document.querySelector(".button-container").style.display = "none";
       }
     </script>
   </body>
