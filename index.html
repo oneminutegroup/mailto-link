@@ -1,75 +1,76 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
   <head>
     <meta charset="UTF-8" />
     <title>메일 보내기</title>
     <style>
       body {
-        font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
-        text-align: center;
+        font-family: sans-serif;
         height: 100vh;
-        overflow: hidden;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
+        justify-content: center;
         align-items: center;
-        position: relative;
+        overflow: hidden;
       }
-      #mail-body {
-        font-size: 20px;
-        margin-top: 30px;
-        white-space: pre-line;
-      }
+
       #mailto-link {
-        position: absolute;
-        top: 60%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 60px 0;
-        width: 60%;
-        font-size: 40px;
-        background-color: #007BFF;
+        display: inline-block;
+        padding: 2em 4em;
+        font-size: 2em;
+        background-color: #007bff;
         color: white;
         text-decoration: none;
-        border-radius: 12px;
-        font-weight: bold;
+        border-radius: 10px;
+        margin-top: 20px;
       }
+
       #copy-button {
+        margin-top: 30px;
+        padding: 1em 2em;
+        font-size: 1.2em;
         position: fixed;
         bottom: 20px;
         right: 20px;
-        padding: 30px 40px;
-        font-size: 20px;
-        background-color: #333;
+        background-color: #28a745;
         color: white;
         border: none;
-        border-radius: 10px;
+        border-radius: 8px;
         cursor: pointer;
-        opacity: 0.9;
+      }
+
+      #body-preview {
+        max-width: 90%;
+        text-align: center;
+        padding: 20px;
+        font-size: 1.2em;
       }
     </style>
   </head>
   <body>
-    <div id="mail-body"></div>
-    <a id="mailto-link" href="#">📨 메일 앱 열기</a>
-    <button id="copy-button">📋 이메일 복사</button>
+    <div id="body-preview"></div>
+    <a id="mailto-link" href="#">메일 보내기</a>
+    <button id="copy-button">📋 복사</button>
 
     <script>
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
+      const body = params.get("body");
 
       if (email) {
-        const decoded = decodeURIComponent(email);
-        document.getElementById("mailto-link").href = "mailto:" + decoded;
-        document.getElementById("mail-body").textContent = decoded + " 에게 메일을 보냅니다.";
+        const mailtoLink = mailto:${decodeURIComponent(email)}?body=${encodeURIComponent(body || "")};
+        document.getElementById("mailto-link").href = mailtoLink;
 
         document.getElementById("copy-button").addEventListener("click", () => {
-          navigator.clipboard.writeText(decoded).then(() => {
-            alert("이메일이 복사되었습니다.");
-          });
+          navigator.clipboard.writeText(decodeURIComponent(email));
+          alert("이메일 주소가 복사되었습니다!");
         });
+
+        if (body) {
+          document.getElementById("body-preview").textContent = decodeURIComponent(body);
+        }
       } else {
         document.body.innerHTML = "<p>이메일 주소가 없습니다.</p>";
       }
