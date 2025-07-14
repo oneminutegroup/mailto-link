@@ -5,56 +5,82 @@
     <title>메일 보내기</title>
     <style>
       body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        margin: 0;
-        font-family: sans-serif;
-        background-color: #f0f0f0;
         flex-direction: column;
-        text-align: center;
+        background-color: #f0f0f0;
+        font-family: sans-serif;
       }
 
-      .button {
-        font-size: 32px; /* 기존보다 크게 */
-        padding: 40px 60px; /* 버튼 크기 확대 */
+      .main-button {
+        font-size: 36px;
+        padding: 60px 200px; /* 세로 60px, 가로 200px로 확장 */
         background-color: #007bff;
         color: white;
         border: none;
-        border-radius: 20px;
+        border-radius: 25px;
         text-decoration: none;
         cursor: pointer;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         display: inline-block;
       }
 
-      .button:hover {
+      .main-button:hover {
         background-color: #0056b3;
       }
 
-      .email-text {
-        margin-top: 40px;
-        font-size: 18px;
-        color: #444;
-        word-break: break-all;
+      .copy-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        font-size: 14px;
+        padding: 10px 16px;
+        background-color: #666;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .copy-button:hover {
+        background-color: #444;
       }
     </style>
   </head>
   <body>
-    <a id="mailto-link" href="mailto:" class="button">📧 메일 앱 열기</a>
-    <div class="email-text" id="email-text"></div>
+    <a id="mailto-link" href="mailto:" class="main-button">📧 메일 앱 열기</a>
+
+    <button class="copy-button" onclick="copyEmail()">📋 이메일 복사</button>
 
     <script>
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
+
       if (email) {
         const decoded = decodeURIComponent(email);
-        const link = "mailto:" + decoded;
-        document.getElementById("mailto-link").setAttribute("href", link);
-        document.getElementById("email-text").innerText = "수신자: " + decoded;
+        const mailto = "mailto:" + decoded;
+        document.getElementById("mailto-link").href = mailto;
+
+        window.emailAddress = decoded; // 복사용 전역 변수 저장
       } else {
-        document.getElementById("email-text").innerText = "이메일 주소가 없습니다.";
+        window.emailAddress = "";
+        alert("이메일 주소가 없습니다.");
+      }
+
+      function copyEmail() {
+        if (!window.emailAddress) {
+          alert("복사할 이메일 주소가 없습니다.");
+          return;
+        }
+
+        navigator.clipboard.writeText(window.emailAddress)
+          .then(() => alert("이메일 주소가 복사되었습니다."))
+          .catch(() => alert("복사에 실패했습니다."));
       }
     </script>
   </body>
