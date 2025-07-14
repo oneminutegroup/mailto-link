@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <title>메일 앱 테스트</title>
+    <meta charset="UTF-8" />
+    <title>메일 보내기</title>
   </head>
   <body>
-    <h2>📨 메일 테스트</h2>
-    <a href="mailto:test@example.com">[수신자: test@example.com 로 메일 보내기]</a>
+    <p>📨 아래 버튼을 눌러 메일 앱을 여세요:</p>
+    <a id="mailto-link" href="#">[메일 앱 열기]</a>
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const email = params.get("email");
+      if (email) {
+        document.getElementById("mailto-link").href = "mailto:" + decodeURIComponent(email);
+      } else {
+        document.body.innerHTML = "<p>이메일 주소가 없습니다.</p>";
+      }
+    </script>
   </body>
 </html>
