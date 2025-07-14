@@ -11,21 +11,22 @@
         height: 100vh;
         margin: 0;
         font-family: sans-serif;
-        background-color: #f9f9f9;
+        background-color: #f0f0f0;
         flex-direction: column;
         text-align: center;
       }
 
       .button {
-        font-size: 20px;
-        padding: 16px 32px;
+        font-size: 32px; /* 기존보다 크게 */
+        padding: 40px 60px; /* 버튼 크기 확대 */
         background-color: #007bff;
         color: white;
         border: none;
-        border-radius: 12px;
+        border-radius: 20px;
         text-decoration: none;
         cursor: pointer;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        display: inline-block;
       }
 
       .button:hover {
@@ -33,27 +34,27 @@
       }
 
       .email-text {
-        margin-top: 24px;
-        color: #555;
-        font-size: 14px;
+        margin-top: 40px;
+        font-size: 18px;
+        color: #444;
         word-break: break-all;
       }
     </style>
   </head>
   <body>
-    <a id="mailto-link" href="#" class="button">📧 메일 앱 열기</a>
+    <a id="mailto-link" href="mailto:" class="button">📧 메일 앱 열기</a>
     <div class="email-text" id="email-text"></div>
 
     <script>
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
       if (email) {
-        const decodedEmail = decodeURIComponent(email);
-        const mailtoLink = "mailto:" + decodedEmail;
-        document.getElementById("mailto-link").href = mailtoLink;
-        document.getElementById("email-text").innerText = 수신자: ${decodedEmail};
+        const decoded = decodeURIComponent(email);
+        const link = "mailto:" + decoded;
+        document.getElementById("mailto-link").setAttribute("href", link);
+        document.getElementById("email-text").innerText = "수신자: " + decoded;
       } else {
-        document.body.innerHTML = "<p>이메일 주소가 없습니다.</p>";
+        document.getElementById("email-text").innerText = "이메일 주소가 없습니다.";
       }
     </script>
   </body>
