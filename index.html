@@ -5,13 +5,21 @@
     <title>메일 보내기</title>
   </head>
   <body>
+    <p>📨 아래 버튼을 눌러 메일 앱을 여세요:</p>
+    <a id="mailto-link" href="#">[메일 앱 열기]</a>
+
     <script>
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
+
       if (email) {
-        document.write('<a href="mailto:' + decodeURIComponent(email) + '">[메일 앱 열기]</a>');
+        const cleanEmail = decodeURIComponent(email);
+        const mailto = "mailto:" + cleanEmail;
+        const link = document.getElementById("mailto-link");
+        link.setAttribute("href", mailto);
+        link.innerText = "📧 " + cleanEmail + " 에게 메일 보내기";
       } else {
-        document.write("<p>이메일 주소가 없습니다.</p>");
+        document.body.innerHTML = "<p>이메일 주소가 없습니다.</p>";
       }
     </script>
   </body>
