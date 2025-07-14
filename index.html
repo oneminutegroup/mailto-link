@@ -9,24 +9,33 @@
         padding: 0;
         height: 100vh;
         display: flex;
-        justify-content: center;
-        align-items: center;
         flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
         background-color: #f0f0f0;
         font-family: sans-serif;
+        text-align: center;
+      }
+
+      .email-body {
+        padding: 30px 20px 0;
+        font-size: 20px;
+        color: #333;
+        word-break: break-word;
       }
 
       .main-button {
-        font-size: 36px;
-        padding: 60px 200px; /* 세로 60px, 가로 200px로 확장 */
+        width: 30%;
+        font-size: 24px;
+        padding: 40px 0; /* 세로 200% 확대 */
         background-color: #007bff;
         color: white;
         border: none;
-        border-radius: 25px;
+        border-radius: 20px;
         text-decoration: none;
         cursor: pointer;
+        margin-bottom: 60px;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        display: inline-block;
       }
 
       .main-button:hover {
@@ -53,6 +62,10 @@
     </style>
   </head>
   <body>
+    <div class="email-body" id="email-body">
+      📩 메일 내용을 불러오는 중...
+    </div>
+
     <a id="mailto-link" href="mailto:" class="main-button">📧 메일 앱 열기</a>
 
     <button class="copy-button" onclick="copyEmail()">📋 이메일 복사</button>
@@ -60,16 +73,21 @@
     <script>
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
+      const body = params.get("body");
 
       if (email) {
-        const decoded = decodeURIComponent(email);
-        const mailto = "mailto:" + decoded;
-        document.getElementById("mailto-link").href = mailto;
-
-        window.emailAddress = decoded; // 복사용 전역 변수 저장
+        const decodedEmail = decodeURIComponent(email);
+        const mailtoLink = "mailto:" + decodedEmail + (body ? "?body=" + encodeURIComponent(body) : "");
+        document.getElementById("mailto-link").href = mailtoLink;
+        window.emailAddress = decodedEmail;
       } else {
         window.emailAddress = "";
-        alert("이메일 주소가 없습니다.");
+      }
+
+      if (body) {
+        document.getElementById("email-body").textContent = decodeURIComponent(body);
+      } else {
+        document.getElementById("email-body").textContent = "✉️ 메일 본문이 없습니다.";
       }
 
       function copyEmail() {
