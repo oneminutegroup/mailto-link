@@ -6,48 +6,50 @@
     <style>
       body {
         font-family: Arial, sans-serif;
-        text-align: center;
-        padding: 30px;
         margin: 0;
+        padding: 20px;
+        text-align: center;
       }
-      #email-content {
+      #mail-body {
         font-size: 18px;
-        margin-bottom: 50px;
-        word-wrap: break-word;
+        margin-bottom: 40px;
+        white-space: pre-line;
       }
       #mailto-link {
         display: inline-block;
-        padding: 30px 0;
+        margin-top: 20vh; /* 화면의 약 70% 지점으로 이동 */
+        padding: 40px 0;
         width: 50%;
-        font-size: 24px;
-        background-color: #4CAF50;
+        font-size: 26px;
+        background-color: #007BFF;
         color: white;
         text-decoration: none;
-        border: none;
         border-radius: 12px;
-        margin-top: 20vh;
+        font-weight: bold;
       }
       #copy-button {
         position: fixed;
         bottom: 20px;
         right: 20px;
-        padding: 10px 15px;
-        font-size: 14px;
-        background-color: #555;
+        padding: 30px 40px; /* 버튼 크기 5배로 확대 */
+        font-size: 20px;
+        background-color: #333;
         color: white;
         border: none;
-        border-radius: 8px;
+        border-radius: 10px;
         cursor: pointer;
-        opacity: 0.8;
+        opacity: 0.9;
       }
     </style>
   </head>
   <body>
-    <div id="email-content">📧 메일 수신자: <span id="email-text"></span></div>
+    <div id="mail-body">
+      아래 버튼을 눌러 메일 앱을 여세요.
+    </div>
 
     <a id="mailto-link" href="#">📨 메일 앱 열기</a>
 
-    <button id="copy-button">이메일 복사</button>
+    <button id="copy-button">📋 이메일 복사</button>
 
     <script>
       const params = new URLSearchParams(window.location.search);
@@ -56,7 +58,6 @@
       if (email) {
         const decoded = decodeURIComponent(email);
         document.getElementById("mailto-link").href = "mailto:" + decoded;
-        document.getElementById("email-text").innerText = decoded;
 
         document.getElementById("copy-button").addEventListener("click", () => {
           navigator.clipboard.writeText(decoded).then(() => {
