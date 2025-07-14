@@ -2,24 +2,35 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>메일 보내기</title>
+    <title>메일 보내기 테스트</title>
   </head>
   <body>
-    <p>📨 아래 버튼을 눌러 메일 앱을 여세요:</p>
+    <h2>📨 아래 버튼을 눌러 메일 앱을 여세요:</h2>
     <a id="mailto-link" href="#">[메일 앱 열기]</a>
+
+    <h3>🔍 디버그 정보:</h3>
+    <p>email 파라미터: <span id="raw-email">로딩 중...</span></p>
+    <p>mailto 링크: <span id="mailto-debug">로딩 중...</span></p>
 
     <script>
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
+      const rawEmailElem = document.getElementById("raw-email");
+      const mailtoElem = document.getElementById("mailto-debug");
+      const mailtoLink = document.getElementById("mailto-link");
 
       if (email) {
         const cleanEmail = decodeURIComponent(email);
-        const mailto = "mailto:" + cleanEmail;
-        const link = document.getElementById("mailto-link");
-        link.setAttribute("href", mailto);
-        link.innerText = "📧 " + cleanEmail + " 에게 메일 보내기";
+        const mailtoHref = "mailto:" + cleanEmail;
+
+        // 실제 mailto 링크 적용
+        mailtoLink.href = mailtoHref;
+
+        // 디버그 정보 출력
+        rawEmailElem.innerText = email;
+        mailtoElem.innerText = mailtoHref;
       } else {
-        document.body.innerHTML = "<p>이메일 주소가 없습니다.</p>";
+        document.body.innerHTML = "<p style='color:red;'>이메일 주소가 없습니다.</p>";
       }
     </script>
   </body>
