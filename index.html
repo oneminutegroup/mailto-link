@@ -2,35 +2,58 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>메일 보내기 테스트</title>
+    <title>메일 보내기</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: sans-serif;
+        background-color: #f9f9f9;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .button {
+        font-size: 20px;
+        padding: 16px 32px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        text-decoration: none;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .button:hover {
+        background-color: #0056b3;
+      }
+
+      .email-text {
+        margin-top: 24px;
+        color: #555;
+        font-size: 14px;
+        word-break: break-all;
+      }
+    </style>
   </head>
   <body>
-    <h2>📨 아래 버튼을 눌러 메일 앱을 여세요:</h2>
-    <a id="mailto-link" href="#">[메일 앱 열기]</a>
-
-    <h3>🔍 디버그 정보:</h3>
-    <p>email 파라미터: <span id="raw-email">로딩 중...</span></p>
-    <p>mailto 링크: <span id="mailto-debug">로딩 중...</span></p>
+    <a id="mailto-link" href="#" class="button">📧 메일 앱 열기</a>
+    <div class="email-text" id="email-text"></div>
 
     <script>
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
-      const rawEmailElem = document.getElementById("raw-email");
-      const mailtoElem = document.getElementById("mailto-debug");
-      const mailtoLink = document.getElementById("mailto-link");
-
       if (email) {
-        const cleanEmail = decodeURIComponent(email);
-        const mailtoHref = "mailto:" + cleanEmail;
-
-        // 실제 mailto 링크 적용
-        mailtoLink.href = mailtoHref;
-
-        // 디버그 정보 출력
-        rawEmailElem.innerText = email;
-        mailtoElem.innerText = mailtoHref;
+        const decodedEmail = decodeURIComponent(email);
+        const mailtoLink = "mailto:" + decodedEmail;
+        document.getElementById("mailto-link").href = mailtoLink;
+        document.getElementById("email-text").innerText = 수신자: ${decodedEmail};
       } else {
-        document.body.innerHTML = "<p style='color:red;'>이메일 주소가 없습니다.</p>";
+        document.body.innerHTML = "<p>이메일 주소가 없습니다.</p>";
       }
     </script>
   </body>
