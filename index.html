@@ -1,71 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <title>메일 보내기</title>
     <style>
       body {
         font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .info {
-        margin-top: 40px;
-        font-size: 1.2rem;
         text-align: center;
+        padding: 30px;
+        margin: 0;
       }
-
-      .button-container {
-        position: fixed;
-        top: 60%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+      #email-content {
+        font-size: 18px;
+        margin-bottom: 50px;
+        word-wrap: break-word;
       }
-
-      .button {
-        font-size: 2rem;
-        padding: 25px 50px;
-        background-color: #007bff;
+      #mailto-link {
+        display: inline-block;
+        padding: 30px 0;
+        width: 50%;
+        font-size: 24px;
+        background-color: #4CAF50;
         color: white;
+        text-decoration: none;
         border: none;
         border-radius: 12px;
-        cursor: pointer;
-        min-width: 300px;
-        min-height: 100px;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        margin-top: 20vh;
       }
-
-      .button:hover {
-        background-color: #0056b3;
+      #copy-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 15px;
+        font-size: 14px;
+        background-color: #555;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        opacity: 0.8;
       }
     </style>
   </head>
   <body>
-    <div class="info">
-      <p>📨 아래 버튼을 눌러 메일 앱을 여세요:</p>
-    </div>
+    <div id="email-content">📧 메일 수신자: <span id="email-text"></span></div>
 
-    <div class="button-container">
-      <a id="mailto-link" href="#">
-        <button class="button">메일 보내기</button>
-      </a>
-    </div>
+    <a id="mailto-link" href="#">📨 메일 앱 열기</a>
+
+    <button id="copy-button">이메일 복사</button>
 
     <script>
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
 
       if (email) {
-        const mailtoLink = mailto:${decodeURIComponent(email)};
-        document.getElementById("mailto-link").href = mailtoLink;
+        const decoded = decodeURIComponent(email);
+        document.getElementById("mailto-link").href = "mailto:" + decoded;
+        document.getElementById("email-text").innerText = decoded;
+
+        document.getElementById("copy-button").addEventListener("click", () => {
+          navigator.clipboard.writeText(decoded).then(() => {
+            alert("이메일이 복사되었습니다.");
+          });
+        });
       } else {
-        document.querySelector(".info").innerHTML = "<p>이메일 주소가 없습니다.</p>";
-        document.querySelector(".button-container").style.display = "none";
+        document.body.innerHTML = "<p>이메일 주소가 없습니다.</p>";
       }
     </script>
   </body>
