@@ -6,17 +6,17 @@
   </head>
   <body>
     <p>📨 아래 버튼을 눌러 메일 앱을 여세요:</p>
-    <a id="mailto-link" href="#">[메일 앱 열기]</a>
+    <button onclick="openMail()">[메일 앱 열기]</button>
 
     <script>
-      const params = new URLSearchParams(window.location.search);
-      const email = params.get("email");
-
-      if (email) {
-        const mailtoLink = "mailto:" + decodeURIComponent(email);
-        window.location.href = mailtoLink;  // 이메일 앱을 즉시 실행
-      } else {
-        document.body.innerHTML = "<p>이메일 주소가 없습니다.</p>";
+      function openMail() {
+        const params = new URLSearchParams(window.location.search);
+        const email = params.get("email");
+        if (email) {
+          window.location.href = "mailto:" + decodeURIComponent(email);
+        } else {
+          alert("이메일 주소가 없습니다.");
+        }
       }
     </script>
   </body>
