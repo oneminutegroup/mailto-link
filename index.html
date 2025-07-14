@@ -1,23 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
-    <title>메일 보내기</title>
+    <meta charset="UTF-8">
+    <title>메일 앱 테스트</title>
   </head>
   <body>
-    <p>📨 아래 버튼을 눌러 메일 앱을 여세요:</p>
-    <button onclick="openMail()">[메일 앱 열기]</button>
-
-    <script>
-      function openMail() {
-        const params = new URLSearchParams(window.location.search);
-        const email = params.get("email");
-        if (email) {
-          window.location.href = "mailto:" + decodeURIComponent(email);
-        } else {
-          alert("이메일 주소가 없습니다.");
-        }
-      }
-    </script>
+    <h2>📨 메일 테스트</h2>
+    <a href="mailto:test@example.com">[수신자: test@example.com 로 메일 보내기]</a>
   </body>
 </html>
