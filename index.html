@@ -19,8 +19,9 @@
       }
       #mail-body {
         font-size: 20px;
-        margin-top: 30px;
+        margin-top: 120px; /* 위치를 아래로 내림 */
         white-space: pre-line;
+        padding: 0 20px;
       }
       #mailto-link {
         position: absolute;
@@ -59,14 +60,16 @@
     <script>
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
+      const body = params.get("body");
 
       if (email) {
-        const decoded = decodeURIComponent(email);
-        document.getElementById("mailto-link").href = "mailto:" + decoded;
-        document.getElementById("mail-body").textContent = decoded + " 에게 메일을 보냅니다.";
+        const decodedEmail = decodeURIComponent(email);
+        const decodedBody = decodeURIComponent(body || "");
+        document.getElementById("mailto-link").href = "mailto:" + decodedEmail + "?body=" + encodeURIComponent(decodedBody);
+        document.getElementById("mail-body").textContent = decodedBody;
 
         document.getElementById("copy-button").addEventListener("click", () => {
-          navigator.clipboard.writeText(decoded).then(() => {
+          navigator.clipboard.writeText(decodedEmail).then(() => {
             alert("이메일이 복사되었습니다.");
           });
         });
