@@ -1,96 +1,79 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8" />
-  <title>메일 보내기</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      padding: 3vh 5vw;
-      box-sizing: border-box;
-    }
-
-    .content {
-      font-size: 1.5rem; /* 본문 글씨 2배 */
-      margin-top: 2vh;
-      text-align: center;
-      word-break: break-word;
-    }
-
-    .button-container {
-      position: relative;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      margin-bottom: 8vh;
-    }
-
-    .main-button {
-      font-size: 1.8rem; /* 버튼 글씨 2배 */
-      padding: 2vh 4vw;  /* 버튼 크기 증가 */
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-    }
-
-    .copy-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      font-size: 1rem;
-      padding: 1vh 2vw;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-  <div class="content" id="emailContent"></div>
-
-  <div class="button-container">
-    <button id="mailto-button" class="main-button">📧 메일 보내기</button>
-  </div>
-
-  <button id="copy-button" class="copy-button">📋 복사</button>
-
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const email = params.get("email");
-    const message = params.get("msg");
-
-    if (email) {
-      const mailto = "mailto:" + decodeURIComponent(email);
-      document.getElementById("mailto-button").onclick = () => {
-        window.location.href = mailto;
-      };
-
-      if (message) {
-        document.getElementById("emailContent").innerText = decodeURIComponent(message);
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>메일 보내기</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        position: relative;
       }
-    } else {
-      document.getElementById("emailContent").innerText = "이메일 주소가 없습니다.";
-      document.getElementById("mailto-button").style.display = "none";
-    }
-
-    document.getElementById("copy-button").onclick = () => {
+      #mail-body {
+        font-size: 40px; /* ✅ 글자 크기 두 배 */
+        margin-top: 200px; /* ✅ 위치 더 아래로 */
+        white-space: pre-line;
+        padding: 0 20px;
+      }
+      #mailto-link {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 60px 0;
+        width: 60%;
+        font-size: 40px;
+        background-color: #007BFF;
+        color: white;
+        text-decoration: none;
+        border-radius: 12px;
+        font-weight: bold;
+      }
+      #copy-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 30px 40px;
+        font-size: 20px;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mail-body"></div>
+    <a id="mailto-link" href="#">📨 메일 앱 열기</a>
+    <button id="copy-button">📋 이메일 복사</button>
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const email = params.get("email");
+      const body = params.get("body");
       if (email) {
-        navigator.clipboard.writeText(decodeURIComponent(email));
-        alert("이메일이 복사되었습니다!");
+        const decodedEmail = decodeURIComponent(email);
+        const decodedBody = decodeURIComponent(body || "");
+        document.getElementById("mailto-link").href =
+          "mailto:" + decodedEmail + "?body=" + encodeURIComponent(decodedBody);
+        document.getElementById("mail-body").textContent = decodedBody;
+        document.getElementById("copy-button").addEventListener("click", () => {
+          navigator.clipboard.writeText(decodedEmail).then(() => {
+            alert("이메일이 복사되었습니다.");
+          });
+        });
+      } else {
+        document.body.innerHTML = "<p>이메일 주소가 없습니다.</p>";
       }
-    };
-  </script>
-</body>
+    </script>
+  </body>
 </html>
