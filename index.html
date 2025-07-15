@@ -18,8 +18,8 @@
         position: relative;
       }
       #mail-body {
-        font-size: 40px; /* ✅ 글자 크기 두 배 */
-        margin-top: 200px; /* ✅ 위치 더 아래로 */
+        font-size: 40px; /* 글씨 크기 2배 */
+        margin-top: 200px; /* 위치 아래로 조정 */
         white-space: pre-line;
         padding: 0 20px;
       }
@@ -60,12 +60,17 @@
       const params = new URLSearchParams(window.location.search);
       const email = params.get("email");
       const body = params.get("body");
+
       if (email) {
         const decodedEmail = decodeURIComponent(email);
         const decodedBody = decodeURIComponent(body || "");
-        document.getElementById("mailto-link").href =
-          "mailto:" + decodedEmail + "?body=" + encodeURIComponent(decodedBody);
+
+        // ✅ 메일앱에 본문 포함시키지 않음
+        document.getElementById("mailto-link").href = "mailto:" + decodedEmail;
+
+        // ✅ 웹페이지 상단에는 본문 그대로 표시
         document.getElementById("mail-body").textContent = decodedBody;
+
         document.getElementById("copy-button").addEventListener("click", () => {
           navigator.clipboard.writeText(decodedEmail).then(() => {
             alert("이메일이 복사되었습니다.");
